@@ -3,6 +3,7 @@
 
 List of exercises proposed during the course:
 #### <a href="#NOGO">Lecture 10 - slide 16 </a>
+
 -[x] installare MVN in locale
 -[x] creare un archetipo di progetto Java
 -[x] configurare il pom.xml secondo le specifiche informazioni/proprietà
