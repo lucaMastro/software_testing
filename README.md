@@ -22,16 +22,24 @@ La directori `target` contiene 3 sottocartelle:
      
 -[x] versionare il progetto MAVEN su un nuovo repository in GitHub. \
     La directory `target` è stata esclusa dai commit.
--[ ] agganciare il repository su CI-Framework configurando l’ambiente di
+-[x] agganciare il repository su CI-Framework configurando l’ambiente di
 esecuzione nel file di configurazione (e.g. travis.yaml)
--[ ] fare in modo che venga attivato un build in remoto ad ogni commit
--[ ] controllare l’esito del build
+-[x] fare in modo che venga attivato un build in remoto ad ogni commit
+-[x] controllare l’esito del build
 
 
-#### <a href="#NOGO">Lecture 10 - slide 17 </a>
--[ ] dal proprio account GitHub fare fork/clone del
-progetto <a href="https://github.com/apache/bookkeeper">Apache Bookkeeper</a>
--[ ] configurare uno spazio di lavoro locale per
+#### Lecture 10 - slide 17
+-[x] dal proprio account GitHub fare fork/clone del
+progetto <a href="https://github.com/apache/bookkeeper">Apache Bookkeeper</a> 
+-[x] configurare uno spazio di lavoro locale per
 Bookkeeper (e.g. download, o clone del fork)
--[ ] fare build di Bookkeeper in locale (<a href="https://cwiki.apache.org/confluence/display/BOOKKEEPER/Developer+Setup">wiki</a>)
--[ ] ispezionare il contenuto della cartella target
+-[x] fare build di Bookkeeper in locale (<a href="https://cwiki.apache.org/confluence/display/BOOKKEEPER/Developer+Setup">wiki</a>)\
+fatta skippando i test, perché altrimenti falliva:\
+ `mvn clean package -DskipTests`
+-[x] ispezionare il contenuto della cartella target\
+La cartella contiene solo due elementi:
+    - file `.plxarc`: che contiene come unico testo la scritta `maven-shared-archive-resources`
+    - directory `maven-shared-archive-resources/META-INF/`: che contiene al suo interno tre file:
+        - `DEPENDENCIES`
+        - `LICENSE`
+        - `NOTICE`
