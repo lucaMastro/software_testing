@@ -12,7 +12,7 @@ da assegnare al progetto (i.e. meta-data, dipendenze, conf di build)
 - [x] fare il build del progetto e ispezionare il contenuto della directory
 target \
 La directori `target` contiene 3 sottocartelle:
-    - `classes`
+    - `classes`: contiene i file compilati (`.class`) all'interno dei loro packages
     - `generated-sourecs/annotations`: la cartella è vuota
     - `maven-status/maven-compiler-plugin/compile/default-compile`: contiene a sua volta
     due files:
