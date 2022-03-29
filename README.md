@@ -31,7 +31,8 @@ esecuzione nel file di configurazione (e.g. travis.yaml)
 
 #### Lecture 10 - slide 17
 - [x] dal proprio account GitHub fare fork/clone del
-progetto <a href="https://github.com/apache/bookkeeper">Apache Bookkeeper</a>. [fork](https://github.com/lucaMastro/bookkeeper) 
+progetto <a href="https://github.com/apache/bookkeeper">Apache Bookkeeper</a>.\
+[fork](https://github.com/lucaMastro/bookkeeper) 
 - [x] configurare uno spazio di lavoro locale per
 Bookkeeper (e.g. download, o clone del fork)
 - [x] fare build di Bookkeeper in locale (<a href="https://cwiki.apache.org/confluence/display/BOOKKEEPER/Developer+Setup">wiki</a>)\
