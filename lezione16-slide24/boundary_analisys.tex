@@ -1,0 +1,203 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[T1]{fontenc}
+
+\usepackage{lipsum}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{spverbatim}
+\usepackage{float}
+\usepackage{url}
+\usepackage{xstring}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\definecolor{linkcolor}{RGB}{1,1,87}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=linkcolor,
+    urlcolor=blue
+}
+\usepackage{fancyvrb,newverbs,xcolor}
+\definecolor{cverbbg}{gray}{0.93}
+
+\usepackage{pythontex}
+
+\newcommand{\makesub}[1]{%
+  \saveexpandmode\noexpandarg
+  \StrSubstitute{#1}{\_}{_}[\temp]%
+  \restoreexpandmode%
+}
+
+\newcommand{\target}[1]{%
+  \makesub{#1}%
+  \hypertarget{\temp}{}%
+}
+
+\newcommand{\attach}[1]{%
+  \makesub{#1}%
+  \hyperlink{\temp}{\emph{#1}}%
+}
+\newcommand{\codeattach}[1]{%
+  \makesub{#1}%
+  \hyperlink{\temp}{\code{#1}}%
+}
+
+\newcommand{\code}[1]{\colorbox{cverbbg}{\texttt{\StrSubstitute{#1}{_}{\_}}}}
+
+\newcommand{\nota}[1]{\textbf{Nota}: #1}
+\newcommand{\memo}[1]{\textbf{Memo}: #1}
+\newcommand{\esempio}[1]{\textbf{Esempio}: #1}
+\newcommand{\tbs}{\textbackslash}
+\newcommand{\ghidra}{\emph{Ghidra}}
+\newcommand{\ollydb}{\emph{OllyDB}}
+\newcommand{\Null}{\code{NULL}}
+\newcommand{\dll}{\emph{DLL}}
+\newcommand{\api}{\emph{API}}
+\newcommand{\key}[1]{\texttt{#1}}
+
+\newcommand{\win}[0]{\textit{Windows}}
+\newcommand{\linux}[0]{\textit{Linux}}
+
+\newenvironment{myverb}
+ {\SaveVerbatim{cverb}}
+ {\endSaveVerbatim
+  \flushleft\fboxrule=0pt\fboxsep=.5em
+  \colorbox{cverbbg}{%
+    \makebox[\dimexpr\linewidth-2\fboxsep][l]{\BUseVerbatim{cverb}}%
+  }
+  \endflushleft
+}
+
+
+
+
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+\setlength\parindent{0pt}
+\begin{document}\sloppy
+  
+\title{
+  \textbf{
+    \emph{Esercizio preliminare}
+  }
+}  
+\author{Luca Mastrobattista}
+\date{}
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Traccia}
+Considerare il progetto \href{https://github.com/apache/bookkeeper}{Apache Bookkeeper}. In particolare la \href{http://bookkeeper.apache.org/docs/4.10.0/development/protocol/}{documentazione}, con riferimento alla classe \href{https://github.com/apache/bookkeeper/blob/e7430ce25e3609bf77b028e4f0475dad2147c22d/bookkeeper-server/src/main/java/org/apache/bookkeeper/client/BookKeeper.java}{\key{org.apache.bookkeeper.client.Bookkeeper}}, identificare partizioni di dominio per i parametri dei metodi: \key{createLedger}.\\
+
+Suggerimento: iniziare a considerare \href{https://github.com/apache/bookkeeper/blob/e7430ce25e3609bf77b028e4f0475dad2147c22d/bookkeeper-server/src/main/java/org/apache/bookkeeper/client/BookKeeper.java#L887}{la sua implementazione}.\\
+ 
+\noindent Scrivere un breve report descrivendo:
+\begin{enumerate}
+\item come sono state identificate le partizioni, e come è stata condotta la \textit{boundary analysis}
+\item suggerimenti preliminari di test da includere, con risultato atteso
+\end{enumerate}
+
+\section{Svolgimento}
+La segnatura del metodo è:
+\begin{myverb}
+public LedgerHandle createLedger(int ensSize, 
+      int writeQuorumSize, 
+      int ackQuorumSize, 
+      DigestType digestType, 
+      byte[] passwd)
+\end{myverb}
+Prende in inpunt 5 parametri:
+\begin{enumerate}
+\item \key{ensSize}: il numero di nodi in cui il \textit{ledger} è memorizzato. La segnatura prevede un tipo intero.
+
+\item \key{writeQuorumSize}: il numero di nodi in cui ogni \textit{entry} è memorizzata e rappresenta di fatto il massimo grado di replicazione di ogni \textit{entry}. La segnatura prevede un tipo intero.
+
+\item \key{ackQuorumSize}: il numero di nodi da cui ogni \textit{entry} deve essere conosciuta e rappresenta di fatto il minimo grado di replicazione di ogni \textit{entry}. Anche qui è previsto un intero.
+
+\item \key{digestType}: dovrebbe rappresentare una \textit{signature} del \textit{ledger} calcolata sulle varie \textit{entry} per verificarle. È una \textit{enum} e sono possibili solo i seguenti valori:
+	\begin{enumerate}
+	\item \key{CRC32}
+    \item \key{MAC}
+ 	\item \key{CRC32C}
+    \item \key{DUMMY}
+	\end{enumerate}
+
+\item \key{passwd}: nella documentazione non è riportata l'utilità di questo campo, ma è possibile leggere che sono i bytes ottenuti da una password inserita. È quindi un array di bytes. 
+\end{enumerate}
+
+\subsection{Definizione delle classi di equivalenza}
+
+\subsubsection{\key{ensSize}}
+È un tipo di dato intero che rappresenta il numero di nodi su cui il \textit{ledger} è definito. Si definiscono 3 classi di equivalenza, una invalida, una che potrebbe essere invalida, e una valida:\\
+\{< 0\}, \{= 0\}, \{> 0\}
+
+\subsubsection{\key{writeQuorumSize}}
+È un tipo di dato intero che rappresenta il numero di nodi su cui ogni \textit{entry} è memorizzata, e quindi il suo grado massimo di replicazione. Si definiscono 3 classi di equivalenza, una invalida, una che potrebbe essere invalida, e una valida:\\
+\{< 0\}, \{= 0\}, \{> 0\}
+
+\subsubsection{\key{ackQuorumSize}}
+È un tipo di dato intero che rappresenta il numero di nodi su cui ogni \textit{entry} deve essere conosciuta, e quindi il suo grado minimo di replicazione. Si definiscono 3 classi di equivalenza, una invalida, una che potrebbe essere invalida, e una valida:\\
+\{< \key{writeQuorumSize}\}, \{= \key{writeQuorumSize}\}, \{> \key{writeQuorumSize}\}
+
+\subsubsection{\key{digestType}}
+Si definisce una classe di equivalenza per ogni \textit{enum}:\\
+\{\key{CRC32}\}, \{\key{MAC}\}, \{\key{CRC32C}\}, \{\key{DUMMY}\}
+
+\subsubsection{\key{passwd}}
+È un array di bytes. Si definiscono le seguenti classi:\\
+\key{NULL}, \{\}, \key{"password".getBytes()}.
+
+
+\subsection{Boundary analisys}
+Le linee guida prevedono che si scelgano valori ai bordi delle classi di equivalenza dove, secondo uno studio empirico, si riscontrano più spesso problemi. 
+
+\subsubsection{\key{ensSize}}
+\{< 0\}, \{= 0\}, \{> 0\} $\rightarrow$ \{-1\}, \{0\}, \{1\}
+
+\subsubsection{\key{writeQuorumSize}}
+\{< 0\}, \{= 0\}, \{> 0\} $\rightarrow$ \{-1\}, \{0\}, \{1\}
+
+\subsubsection{\key{ackQuorumSize}}
+\{< \key{writeQuorumSize}\}, \{= \key{writeQuorumSize}\}, \{> \key{writeQuorumSize}\} $\rightarrow$ \{\key{writeQuorumSize} -1\}, \{\key{writeQuorumSize}\}, \{\key{writeQuorumSize} +1\}
+
+\subsubsection{\key{digestType}}
+\{\key{CRC32}\}, \{\key{MAC}\}, \{\key{CRC32C}\}, \{\key{DUMMY}\}
+
+\subsubsection{\key{passwd}}
+\key{NULL}, \{\}, \key{"password".getBytes()}
+
+
+\subsection{Test da includere}
+\newcommand{\f}[1]{\key{createLedger(#1)}}
+\subsubsection{Analisi unidimensionale}
+\f{-1, -1, -2, \key{CRC32}, \key{NULL}} $\rightarrow$ Ci si aspetta il sollevamento di una eccezione: si suppone che i gradi di replicazione di un nodo debbano essere maggiori o al massimo uguali a 0. \\
+
+\f{0, 0, 0, \key{MAC}, \key{\{\}}} $\rightarrow$ Ci si aspetta il sollevamento di una eccezione: nella documentazione è specificato che è necessario almeno una password e un \key{digestType} per creare un ledger, ma qui la password è vuota. Inoltre non avrebbe molto senso creare un \textit{ledger} che non viene memorizzato su nessun nodo. \\
+
+\f{1, 1, 2, \key{CRC32C}, \key{"password".getBytes()}} $\rightarrow$ Ci si aspetta il sollevamento di una eccezione: il grado di replicazione minimo è superiore al grado di replicazione massimo. \\
+
+\f{1, 1, 2, \key{DUMMY}, \key{"password".getBytes()}} $\rightarrow$ Ci si aspetta che venga restituito un \key{LedgerHandle} correttamente creato. \\
+
+L'ultimo test è risultato necessario per coprire interamente le classi di equivalenza del parametro \key{digestType}, ma è stato utile per testare che il metodo restituisca un oggetto correttamente inizializzato. 
+
+\subsubsection{Analisi multidimensionale}
+Le possibili combinazioni sono: 
+\[
+\prod_{C_i}{|C_i|} = 3 \cdot 3 \cdot 3 \cdot 4 \cdot 3 = 3^4 \cdot 4 = 324
+\]
+dove $C_i$ è la classe di equivalenza per il parametro $i$.
+
+\subsubsection{Conclusioni}
+Il secondo metodo, quello multidimensionale, è decisamente più costoso ma sicuramente più esaustivo: tutte le possibili combinazioni delle classi di equivalenza vengono infatti testate. Non è detto, però, che eventuali malfunzionamenti dipendano dalla combinazione di tutti e 5 i parametri: personalmente, osservando che i test definiti con un approccio unidimensionale sono un sottoinsieme dei casi definiti con un approccio multidimensione, proverei prima ad eseguire i test del sottoinsieme e poi, eventualmente, eseguirei i test mancanti per ottenere l'insieme dei test definiti nel caso multidimensionale. 
+
+\end{document}
