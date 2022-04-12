@@ -1,2 +1,8 @@
 target/
 .idea/
+*.toc
+*.pytxcode
+*.log
+*.out
+*.aux
+*.synctex.gz
