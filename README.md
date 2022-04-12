@@ -12,7 +12,7 @@ da assegnare al progetto (i.e. meta-data, dipendenze, conf di build)
 - [x] fare il build del progetto e ispezionare il contenuto della directory
 target \
 La directori `target` contiene 3 sottocartelle:
-    - `classes`
+    - `classes`: contiene i file compilati (`.class`) all'interno dei loro packages
     - `generated-sourecs/annotations`: la cartella è vuota
     - `maven-status/maven-compiler-plugin/compile/default-compile`: contiene a sua volta
     due files:
@@ -31,7 +31,8 @@ esecuzione nel file di configurazione (e.g. travis.yaml)
 
 #### Lecture 10 - slide 17
 - [x] dal proprio account GitHub fare fork/clone del
-progetto <a href="https://github.com/apache/bookkeeper">Apache Bookkeeper</a> 
+progetto <a href="https://github.com/apache/bookkeeper">Apache Bookkeeper</a>.\
+[fork](https://github.com/lucaMastro/bookkeeper) 
 - [x] configurare uno spazio di lavoro locale per
 Bookkeeper (e.g. download, o clone del fork)
 - [x] fare build di Bookkeeper in locale (<a href="https://cwiki.apache.org/confluence/display/BOOKKEEPER/Developer+Setup">wiki</a>)\
