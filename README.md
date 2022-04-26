@@ -50,7 +50,8 @@ La cartella contiene solo due elementi:
 - [x] Definire due classi utilizzando il numero relativo alla prima lettera del nome e del cognome:
     - <img src="https://render.githubusercontent.com/render/math?math={\color{white}\M%20=%2013%20\equiv%205\%20mod\%208%20\implies}"> `fastjson/src/test/java/com/alibaba/json/bvt/SerializeWriterTest.java`
     - <img src="https://render.githubusercontent.com/render/math?math={\color{white}\L%20=%2012%20\equiv%202\%20mod\%2010%20\implies}"> `fastjson/src/test/java/com/alibaba/json/bvt/parser/TypeUtilsTest.java`
-- [ ] Configurare uno spazio di lavoro su GitHub con Maven ( e possibilmente framework di CI)
+- [ ] Configurare uno spazio di lavoro su GitHub con Maven ( e possibilmente framework di CI)\
+    [link al repository](https://github.com/lucaMastro/fastjson)
 - [ ] Per ogni classe di test proporre una nuova implementazione che:
     - sia basata su Junit 4
     - preveda esclusivamente la dichiarazione di test parametrici
