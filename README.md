@@ -48,8 +48,8 @@ La cartella contiene solo due elementi:
         
 #### Lecture 19 - slide 13 - Verso il progetto "1+"
 - [x] Definire due classi utilizzando il numero relativo alla prima lettera del nome e del cognome:
-    - $ M = 13 \equiv 5 mod 8 \implies $ `fastjson/src/test/java/com/alibaba/json/bvt/SerializeWriterTest.java`
-    - $ L = 12 \equiv 2 mod 10 \implies $ `fastjson/src/test/java/com/alibaba/json/bvt/parser/TypeUtilsTest.java`
+    - M = 13 $\equiv$ 5 mod 8 $\implies$ `fastjson/src/test/java/com/alibaba/json/bvt/SerializeWriterTest.java`
+    - L = 12 $\equiv$ 2 mod 10 $\implies$ `fastjson/src/test/java/com/alibaba/json/bvt/parser/TypeUtilsTest.java`
 - [ ] Configurare uno spazio di lavoro su GitHub con Maven ( e possibilmente framework di CI)
 - [ ] Per ogni classe di test proporre una nuova implementazione che:
     - sia basata su Junit 4
