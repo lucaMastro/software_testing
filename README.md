@@ -52,7 +52,7 @@ La cartella contiene solo due elementi:
     - <img src="https://render.githubusercontent.com/render/math?math={\color{white}\L%20=%2012%20\equiv%202\%20mod\%2010%20\implies}"> `fastjson/src/test/java/com/alibaba/json/bvt/parser/TypeUtilsTest.java`
 - [x] Configurare uno spazio di lavoro su GitHub con Maven ( e possibilmente framework di CI)\
     [link al repository](https://github.com/lucaMastro/fastjson)
-- [ ] Per ogni classe di test proporre una nuova implementazione che:
+- [x] Per ogni classe di test proporre una nuova implementazione che:
     - sia basata su Junit 4
     - preveda esclusivamente la dichiarazione di test parametrici
     - usi uno o più metodi “configure” per legare i parametri passati con il runner Parametrized o il costruttore
