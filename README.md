@@ -55,5 +55,4 @@ La cartella contiene solo due elementi:
 - [x] Per ogni classe di test proporre una nuova implementazione che:
     - sia basata su Junit 4
     - preveda esclusivamente la dichiarazione di test parametrici
-    - usi uno o più metodi “configure” per legare i parametri passati con il runner Parametrized o il costruttore \
-    [Link al repository](https://github.com/lucaMastro/fastjson)
+    - usi uno o più metodi “configure” per legare i parametri passati con il runner Parametrized o il costruttore
